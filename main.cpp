@@ -32,7 +32,7 @@ int main() {
             expected.data = expectedOutputs[i];
 
             Matrix prediction = net.forward(input);
-            net.backward(prediction, expected);
+            net.backward(prediction, expected, epoch);
         }
     }
 
