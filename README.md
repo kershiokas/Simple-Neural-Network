@@ -16,6 +16,7 @@ What it can do?
 
 
 Output:
+
 0 XOR 0 = 0.013
 
 0 XOR 1 = 0.989
