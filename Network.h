@@ -9,6 +9,9 @@
 #include <fstream>
 
 struct Network {
+    float trainingRate;
+    Network(float trainingRate = 0.01) : trainingRate(trainingRate) {}
+
     std::vector<Layer> layers;
 
     void add_layer(Layer layer) {
@@ -33,8 +36,8 @@ struct Network {
 
             Matrix newErr = err * (-layers[i].weights);
 
-            layers[i].weights = layers[i].weights - weightGradient*0.1;
-            layers[i].biases = layers[i].biases - err*0.1;
+            layers[i].weights = layers[i].weights - weightGradient*trainingRate;
+            layers[i].biases = layers[i].biases - err*trainingRate;
 
             err = newErr;
         }
@@ -54,7 +57,7 @@ struct Network {
         std::ofstream file(filename);
 
         if (!file.is_open()) {
-            std::cerr << "Error creating file " << filename << std::endl;
+            std::cerr << "Error: creating file " << filename << std::endl;
             exit(-1);
         }
 
@@ -78,7 +81,7 @@ struct Network {
         std::ifstream file(filename);
 
         if (!file.is_open()) {
-            std::cerr << "Error opening file " << filename << std::endl;
+            std::cerr << "Error: opening file " << filename << std::endl;
             exit(-1);
         }
 
