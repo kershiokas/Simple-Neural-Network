@@ -49,7 +49,7 @@ struct Network {
     float loss(const Matrix& prediction, const Matrix& expected) {
         float loss = 0.0f;
         for (int i = 0; i < prediction.cols*prediction.rows; i++) {
-            loss += expected.data[i] * log(prediction.data[i]);
+            loss += expected.data[i] * log(std::max(prediction.data[i], 1e-7f));
         }
         return -loss;
     }
