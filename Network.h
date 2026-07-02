@@ -26,9 +26,10 @@ struct Network {
         return out;
     }
 
-    Matrix backward(const Matrix& prediction, const Matrix& expected) {
+    Matrix backward(const Matrix& prediction, const Matrix& expected, int currentEpoch = 0) {
         Matrix err = prediction-expected;
-
+        float currentRate = trainingRate * (1.0f / (1.0f + 0.0001f * epoch));
+        
         for (int i = layers.size() - 1; i >= 0; i--) {
 
             err = err.hadamard(layers[i].preActivation.apply_Function(layers[i].activation_derivative));
@@ -36,8 +37,8 @@ struct Network {
 
             Matrix newErr = err * (-layers[i].weights);
 
-            layers[i].weights = layers[i].weights - weightGradient*trainingRate;
-            layers[i].biases = layers[i].biases - err*trainingRate;
+            layers[i].weights = layers[i].weights - weightGradient*currentRate;
+            layers[i].biases = layers[i].biases - err*currentRate;
 
             err = newErr;
         }
