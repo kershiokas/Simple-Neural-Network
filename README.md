@@ -13,6 +13,7 @@ What it can do?
 - Layers support forward pass.
 - Network supports forward and backward pass.
 - Save and load trained weights :D (it's literally just a text file though)
+- Dynamically expand the matrix size based on new training data introduction (when the network is being loaded in)
 
 
 Output:
