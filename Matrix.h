@@ -15,7 +15,7 @@ class Matrix {
 
     Matrix() : cols(0), rows(0), data(0) {}
     Matrix(int cols, int rows) : cols(cols), rows(rows), data(rows * cols, 0.0f){}
-    Matrix(const std::vector<float>& data, int cols, int rows) : cols(cols), rows(rows), data(data) {}
+    Matrix(const std::vector<float>& dataInput, int cols, int rows) : cols(cols), rows(rows), data(dataInput) {}
 
     float& find(int c, int r) {
         return data[r * cols + c];
