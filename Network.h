@@ -74,7 +74,7 @@ struct Network {
         std::cout << filename<< " is done saving." << std::endl;
     }
 
-    void load(const std::string& filename) {
+    void load(const std::string& filename, bool expansion) {
         std::ifstream file(filename);
 
         if (!file.is_open()) {
@@ -87,22 +87,40 @@ struct Network {
             file >> lCols >> lRows;
 
             if (lCols != layers[i].weights.cols || lRows != layers[i].weights.rows) {
-                std::cerr << "Error: weight size mismatch in given file." << filename << std::endl;
-                exit(-1);
+                if (!expansion) {
+                    std::cerr << "Error: weight size mismatch in given file." << filename << std::endl;
+                    exit(-1);
+                }else {
+                    Matrix expandedWeights(layers[i].weights.cols, layers[i].weights.rows);
+                    for (int r = 0; r < lRows; r++)
+                        for (int c = 0; c < lCols; c++)
+                            file>>expandedWeights.data[r * expandedWeights.cols + c];
+                    expandedWeights.randomize();
+                    layers[i].weights = expandedWeights;
+                }
+            }else {
+                for (int j = 0; j < lCols*lRows; j++)
+                    file >> layers[i].weights.data[j];
             }
-
-            for (int j = 0; j < lCols*lRows; j++)
-                file >> layers[i].weights.data[j];
 
             file >> lCols >> lRows;
 
             if (lCols != layers[i].biases.cols || lRows != layers[i].biases.rows) {
-                std::cerr << "Error: weight size mismatch in given file." << filename << std::endl;
-                exit(-1);
+                if (!expansion) {
+                    std::cerr << "Error: weight size mismatch in given file." << filename << std::endl;
+                    exit(-1);
+                }else {
+                    Matrix expandedBias(layers[i].biases.cols, layers[i].biases.rows);
+                    for (int r = 0; r < lRows; r++)
+                        for (int c = 0; c < lCols; c++)
+                            file>>expandedBias.data[r * expandedBias.cols + c];
+                    expandedBias.randomize();
+                    layers[i].biases = expandedBias;
+                }
+            }else {
+                for (int j = 0; j < lCols*lRows; j++)
+                    file >> layers[i].biases.data[j];
             }
-
-            for (int j = 0; j < lCols*lRows; j++)
-                file >> layers[i].biases.data[j];
         }
         std::cout << filename<< " is done loading." << std::endl;
     }
