@@ -28,7 +28,7 @@ struct Network {
 
     Matrix backward(const Matrix& prediction, const Matrix& expected, int currentEpoch = 0) {
         Matrix err = prediction-expected;
-        float currentRate = trainingRate * (1.0f / (1.0f + 0.0001f * epoch));
+        float currentRate = trainingRate * (1.0f / (1.0f + 0.0001f * currentEpoch));
         
         for (int i = layers.size() - 1; i >= 0; i--) {
 
