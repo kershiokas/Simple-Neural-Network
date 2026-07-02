@@ -48,7 +48,7 @@ int main() {
     // save/load
     /*
     net.save("model.txt");
-    net.load("model.txt");
+    net.load("model.txt", 0); //expanding loading doesnt trigger a mismatch error size it just expands and randomizes new nodes for training purposes
     */
 
     return 0;
