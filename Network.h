@@ -35,7 +35,13 @@ struct Network {
             err = err.hadamard(layers[i].preActivation.apply_Function(layers[i].activation_derivative));
             Matrix weightGradient = (-layers[i].prev) * err;
 
+            for (auto& val : weightGradient.data)
+                val = std::max(-1.0f, std::min(1.0f, val));
+
             Matrix newErr = err * (-layers[i].weights);
+
+            for (auto& val : err.data)
+                val = std::max(-1.0f, std::min(1.0f, val));
 
             layers[i].weights = layers[i].weights - weightGradient*currentRate;
             layers[i].biases = layers[i].biases - err*currentRate;
