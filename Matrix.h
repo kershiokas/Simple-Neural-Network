@@ -28,11 +28,12 @@ class Matrix {
         }
 
         Matrix result(other.cols, rows);
+        Matrix transponed = -other;
 
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < other.cols; j++)
                 for (int k = 0; k < cols; k++)
-                    result.data[i * other.cols + j] += data[i * cols + k] * other.data[k * other.cols + j];
+                    result.data[i * other.cols + j] += data[i * cols + k] * transponed.data[j * cols + k];
 
         return result;
     }
