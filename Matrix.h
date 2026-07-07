@@ -31,9 +31,12 @@ class Matrix {
         Matrix transponed = -other;
 
         for (int i = 0; i < rows; i++)
-            for (int j = 0; j < other.cols; j++)
-                for (int k = 0; k < cols; k++)
-                    result.data[i * other.cols + j] += data[i * cols + k] * transponed.data[j * cols + k];
+            for (int k = 0; k < cols; k++) {
+                float val = data[i * cols + k];
+                if (val == 0.0f) continue;
+                for (int j = 0; j < other.cols; j++)
+                    result.data[i * other.cols + j] += val * transponed.data[j * cols + k];
+            }
 
         return result;
     }
@@ -110,6 +113,14 @@ class Matrix {
 
         for (int i = 0; i < cols*rows; i++)
                 data[i] = dist(rng);
+    }
+
+    void randomize(int inputSize) {
+        std::mt19937 rng(std::random_device{}());
+        float scale = sqrt(2.0f / inputSize);
+        std::uniform_real_distribution<float> dist(-scale, scale);
+        for (int i = 0; i < cols * rows; i++)
+            data[i] = dist(rng);
     }
 
     void print() {
