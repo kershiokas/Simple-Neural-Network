@@ -19,7 +19,7 @@ struct Layer {
     Layer(int inputSize, int outSize, float(*activation_function)(float), float(*activation_derivative)(float)) :
     weights(outSize, inputSize), biases(outSize, 1),
     activation_function(activation_function), activation_derivative(activation_derivative) {
-        weights.randomize();
+        weights.randomize(inputSize);
         biases.randomize();
     }
 
