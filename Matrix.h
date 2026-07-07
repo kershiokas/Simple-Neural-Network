@@ -21,7 +21,7 @@ class Matrix {
         return data[r * cols + c];
     }
 
-    Matrix operator*(const Matrix& other) const{
+    Matrix operator*(const Matrix& other) const {
         if (cols != other.rows) {
             std::cerr << "Invalid input size." << std::endl;
             exit(0);
@@ -31,12 +31,9 @@ class Matrix {
         Matrix transponed = -other;
 
         for (int i = 0; i < rows; i++)
-            for (int k = 0; k < cols; k++) {
-                float val = data[i * cols + k];
-                if (val == 0.0f) continue;
-                for (int j = 0; j < other.cols; j++)
-                    result.data[i * other.cols + j] += val * transponed.data[j * cols + k];
-            }
+            for (int j = 0; j < other.cols; j++)
+                for (int k = 0; k < cols; k++)
+                    result.data[i * other.cols + j] += data[i * cols + k] * transponed.data[j * cols + k];
 
         return result;
     }
